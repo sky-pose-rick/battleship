@@ -1,0 +1,5 @@
+#exclude npm
+node_modules/*
+
+#exclude scripts
+*.sh

@@ -1,0 +1,30 @@
+{
+  "name": "battleship",
+  "version": "1.0.0",
+  "description": "No description.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sky-pose-rick/battleship.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sky-pose-rick/battleship/issues"
+  },
+  "homepage": "https://github.com/sky-pose-rick/battleship#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2",
+    "jest": "^27.3.1",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
+  }
+}
