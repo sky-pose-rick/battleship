@@ -45,8 +45,13 @@ const gameboardFactory = () => {
 
   const isAllSunk = () => ships.every((ship) => ship.isSunk());
 
+  const isValidTarget = (row, col) => {
+    const cell = board[row][col];
+    return !(cell.miss || cell.hit);
+  };
+
   return {
-    getTile, placeShip, receiveAttack, isAllSunk,
+    getTile, placeShip, receiveAttack, isAllSunk, isValidTarget,
   };
 };
 

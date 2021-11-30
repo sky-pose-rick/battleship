@@ -85,4 +85,12 @@ describe('put two ships on the board', () => {
     board.receiveAttack(2, 6);
     expect(board.isAllSunk()).toBe(true);
   });
+
+  it('report whether target has already been selected', () => {
+    expect(board.isValidTarget(8, 7)).toBe(true);
+    board.receiveAttack(8, 7);
+    expect(board.isValidTarget(8, 7)).toBe(false);
+    board.receiveAttack(8, 8);
+    expect(board.isValidTarget(8, 8)).toBe(false);
+  });
 });
