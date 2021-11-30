@@ -1,13 +1,13 @@
 import playerFactory from './player';
 import gameboardFactory from './gameboard';
 
-let enemyBoard;
-let player;
-let targetID;
-let targetList;
-let targetMock;
-
 describe('testing a mock targeting function', () => {
+  let enemyBoard;
+  let player;
+  let targetID;
+  let targetList;
+  let targetMock;
+
   beforeAll(() => {
     enemyBoard = gameboardFactory();
     player = playerFactory();
