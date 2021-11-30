@@ -1,19 +1,14 @@
 import gameboardFactory from './gameboard';
 
 const playerFactory = () => {
-  const board = gameboardFactory();
-
   const hitStack = [];
   let searchCount = 0;
   const searchOffsets = [[0, -1], [-1, 0], [0, 1], [1, 0]];
 
-  const getBoard = () => board;
-
-  const takeTurn = async function takeTurn(otherPlayer, targetFunc) {
+  const takeTurn = async function takeTurn(otherBoard, targetFunc) {
     let validTarget = false;
     let row;
     let col;
-    const otherBoard = otherPlayer.getBoard();
     while (!validTarget) {
       // eslint-disable-next-line no-await-in-loop
       [row, col] = await targetFunc();
@@ -55,7 +50,7 @@ const playerFactory = () => {
   };
 
   return {
-    getBoard, takeTurn, randomTarget, aiTarget,
+    takeTurn, randomTarget, aiTarget,
   };
 };
 
