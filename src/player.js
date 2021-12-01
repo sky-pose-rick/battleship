@@ -1,6 +1,7 @@
 import gameboardFactory from './gameboard';
 
 const playerFactory = () => {
+  const boardSize = 10;
   const hitStack = [];
   let searchCount = 0;
   const searchOffsets = [[0, -1], [-1, 0], [0, 1], [1, 0]];
@@ -25,9 +26,11 @@ const playerFactory = () => {
     return Promise.resolve({ row, col, hit });
   };
 
+  const randInt = (num) => Math.floor(num * Math.random());
+
   const randomTarget = () => {
-    const row = Math.random(0, 10);
-    const col = Math.random(0, 10);
+    const row = randInt(boardSize);
+    const col = randInt(boardSize);
     return Promise.resolve([row, col]);
   };
 
@@ -37,7 +40,8 @@ const playerFactory = () => {
       searchCount = 0;
     }
     if (hitStack.length === 0) {
-      return Promise.resolve(randomTarget);
+      const randomPromise = randomTarget();
+      return randomPromise;
     }
     let row;
     let col;

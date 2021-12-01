@@ -54,3 +54,13 @@ describe('testing a mock targeting function', () => {
     expect(enemyBoard.getTile(1, 4).miss).toBeTruthy();
   });
 });
+
+it('test random target generator', async () => {
+  const enemyBoard = gameboardFactory();
+  const player = playerFactory();
+
+  // place no ships
+  const targetFunc = player.aiTarget;
+  const result = await player.takeTurn(enemyBoard, targetFunc);
+  expect(result.hit).toBe(false);
+});

@@ -11,19 +11,21 @@ const gameboardFactory = () => {
 
   const getTile = (row, col) => board[row][col];
 
-  const placeShip = (shipDesc) => {
-    const ship = shipFactory(shipDesc.length);
+  const placeShip = ({
+    row, col, length, isVertical,
+  }) => {
+    const ship = shipFactory(length);
     ships.push(ship);
-    if (shipDesc.isVertical) {
-      for (let i = 0; i < shipDesc.length; i += 1) {
-        board[shipDesc.row + i][shipDesc.col] = {
+    if (isVertical) {
+      for (let i = 0; i < length; i += 1) {
+        board[row + i][col] = {
           ship,
           pos: i,
         };
       }
     } else {
-      for (let i = 0; i < shipDesc.length; i += 1) {
-        board[shipDesc.row][shipDesc.col + i] = {
+      for (let i = 0; i < length; i += 1) {
+        board[row][col + i] = {
           ship,
           pos: i,
         };
