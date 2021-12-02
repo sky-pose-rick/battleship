@@ -52,8 +52,11 @@ const gameboardFactory = () => {
     return !(cell.miss || cell.hit);
   };
 
+  const getWidth = () => board[0].length;
+  const getHeight = () => board.length;
+
   return {
-    getTile, placeShip, receiveAttack, isAllSunk, isValidTarget,
+    getTile, placeShip, receiveAttack, isAllSunk, isValidTarget, getWidth, getHeight,
   };
 };
 
