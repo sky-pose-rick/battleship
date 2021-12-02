@@ -93,4 +93,9 @@ describe('put two ships on the board', () => {
     board.receiveAttack(8, 8);
     expect(board.isValidTarget(8, 8)).toBe(false);
   });
+
+  it('prevent selections outside gameboard', () => {
+    expect(board.isValidTarget(10, 10)).toBe(false);
+    expect(board.isValidTarget(-1, -1)).toBe(false);
+  });
 });
