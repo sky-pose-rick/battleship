@@ -51,13 +51,13 @@ async function runGame() {
   // one board container
   const container1 = document.getElementById('board1');
   const container2 = document.getElementById('board2');
-  boardDrawer.drawBoard(container1, board1);
+  boardDrawer.drawBoard(container1, board1, true);
   boardDrawer.drawBoard(container2, board2);
 
   // start loop
   while (!board1.isAllSunk()) {
     // draw board
-    boardDrawer.drawBoard(container1, board1);
+    boardDrawer.drawBoard(container1, board1, true);
     // ask human player to choose target
     // eslint-disable-next-line no-await-in-loop
     const action1 = await player1.takeTurn(board2, promptTargeting);
@@ -78,7 +78,7 @@ async function runGame() {
   // check if human loses
   // back to top of loop
   }
-  boardDrawer.drawBoard(container1, board1);
+  boardDrawer.drawBoard(container1, board1, true);
   boardDrawer.drawBoard(container2, board2);
   // exit function
   console.log('game over');

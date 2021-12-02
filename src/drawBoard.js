@@ -1,18 +1,31 @@
 // prepare an html element to represent a 10x10 board
-function getSymbol(cell) {
-  // no shot yet, no ship
-  if (!cell.hit && !cell.miss && !cell.ship) { return 'O'; }
-  // missed shot
-  if (cell.miss) { return '.'; }
-  // hit and sunk
-  if (cell.hit && cell.ship.isSunk()) { return 'X'; }
-  // only a hit
-  if (cell.hit) { return 'x'; }
-  // a ship
-  return 'T';
+function createTileElem(cell, isOwnBoard) {
+  const tDiv = document.createElement('td');
+  if (!cell.hit && !cell.miss && (!cell.ship || !isOwnBoard)) {
+    // no shot yet, no ship or enemy ship that remains hidden
+    tDiv.className = 'cell-empty';
+    tDiv.innerText = 'O';
+  } else if (cell.miss) {
+    // missed shot
+    tDiv.className = 'cell-miss';
+    tDiv.innerText = '.';
+  } else if (cell.hit && cell.ship.isSunk()) {
+    // hit and sunk
+    tDiv.className = 'cell-sunk';
+    tDiv.innerText = 'X';
+  } else if (cell.hit) {
+    // only a hit
+    tDiv.className = 'cell-hit';
+    tDiv.innerText = 'x';
+  } else {
+    // a ship that belongs to the player
+    tDiv.className = 'cell-ship';
+    tDiv.innerText = 'T';
+  }
+  return tDiv;
 }
 
-function createBoardElem(board) {
+function createBoardElem(board, isOwnBoard = false) {
   const parent = document.createElement('div');
   const table = document.createElement('table');
   parent.appendChild(table);
@@ -23,18 +36,17 @@ function createBoardElem(board) {
     const tRow = document.createElement('tr');
     table.appendChild(tRow);
     for (let col = 0; col < width; col += 1) {
-      const tDiv = document.createElement('td');
+      const tDiv = createTileElem(board.getTile(row, col), isOwnBoard);
       tRow.appendChild(tDiv);
-      tDiv.innerText = getSymbol(board.getTile(row, col));
       // add event listener to cell for inputs
     }
   }
   return parent;
 }
 
-function drawBoard(container, board) {
-  console.log('drawing borad');
-  const boardElem = createBoardElem(board);
+function drawBoard(container, board, isOwnBoard) {
+  console.log('drawing board');
+  const boardElem = createBoardElem(board, isOwnBoard);
   if (container.firstChild) { container.replaceChild(boardElem, container.firstChild); } else { container.appendChild(boardElem); }
 }
 
