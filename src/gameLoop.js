@@ -1,6 +1,7 @@
 import gameboardFactory from './gameboard';
 import playerFactory from './player';
 import boardDrawer from './drawBoard';
+import eventEmitter from './messenger';
 
 function staticBoardSetup() {
   const board = gameboardFactory();
@@ -38,6 +39,26 @@ function promptTargeting() {
   return Promise.resolve([row, col]);
 }
 
+function clickTargeting(pubsub) {
+  let eventRef;
+
+  // create promise
+  const targetPromise = new Promise((resolve) => {
+    // create function to pass to pubsub
+    const getClick = (row, col) => {
+      resolve([row, col]);
+    };
+    eventRef = pubsub.subscribe('target-select', getClick);
+  });
+
+  // unsubscribe once promise is done being used
+  targetPromise.finally(() => {
+    eventRef.unsubscribe();
+  });
+
+  return targetPromise;
+}
+
 async function runGame() {
   // create player 1
   const player1 = playerFactory();
@@ -48,11 +69,14 @@ async function runGame() {
   // create board 2
   const board2 = quickBoardSetup();
 
+  const pubsub = eventEmitter();
+  const modClickTarget = () => clickTargeting(pubsub);
+
   // one board container
   const container1 = document.getElementById('board1');
   const container2 = document.getElementById('board2');
   boardDrawer.drawBoard(container1, board1, true);
-  boardDrawer.drawBoard(container2, board2);
+  boardDrawer.drawBoard(container2, board2, false, pubsub);
 
   // start loop
   while (!board1.isAllSunk()) {
@@ -60,7 +84,7 @@ async function runGame() {
     boardDrawer.drawBoard(container1, board1, true);
     // ask human player to choose target
     // eslint-disable-next-line no-await-in-loop
-    const action1 = await player1.takeTurn(board2, promptTargeting);
+    const action1 = await player1.takeTurn(board2, modClickTarget);
     console.log('Human: ', action1);
     // allow clicking on board
     // once target is selected, end clicking
@@ -70,7 +94,7 @@ async function runGame() {
       break;
     }
     // don't redraw board
-    boardDrawer.drawBoard(container2, board2);
+    boardDrawer.drawBoard(container2, board2, false, pubsub);
     // AI choose target
     // eslint-disable-next-line no-await-in-loop
     const action2 = await player2.takeTurn(board1, player2.aiTarget);
@@ -79,7 +103,7 @@ async function runGame() {
   // back to top of loop
   }
   boardDrawer.drawBoard(container1, board1, true);
-  boardDrawer.drawBoard(container2, board2);
+  boardDrawer.drawBoard(container2, board2, false);
   // exit function
   console.log('game over');
 }

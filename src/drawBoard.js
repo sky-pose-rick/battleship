@@ -1,31 +1,32 @@
 // prepare an html element to represent a 10x10 board
-function createTileElem(cell, isOwnBoard) {
-  const tDiv = document.createElement('td');
+function getTileGroup(cell, isOwnBoard) {
+  let symbol;
+  let category;
   if (!cell.hit && !cell.miss && (!cell.ship || !isOwnBoard)) {
     // no shot yet, no ship or enemy ship that remains hidden
-    tDiv.className = 'cell-empty';
-    tDiv.innerText = 'O';
+    category = 'cell-empty';
+    symbol = 'O';
   } else if (cell.miss) {
     // missed shot
-    tDiv.className = 'cell-miss';
-    tDiv.innerText = '.';
+    category = 'cell-miss';
+    symbol = '.';
   } else if (cell.hit && cell.ship.isSunk()) {
     // hit and sunk
-    tDiv.className = 'cell-sunk';
-    tDiv.innerText = 'X';
+    category = 'cell-sunk';
+    symbol = 'X';
   } else if (cell.hit) {
     // only a hit
-    tDiv.className = 'cell-hit';
-    tDiv.innerText = 'x';
+    category = 'cell-hit';
+    symbol = 'x';
   } else {
     // a ship that belongs to the player
-    tDiv.className = 'cell-ship';
-    tDiv.innerText = 'T';
+    category = 'cell-ship';
+    symbol = 'T';
   }
-  return tDiv;
+  return { symbol, category };
 }
 
-function createBoardElem(board, isOwnBoard = false) {
+function createBoardElem(board, isOwnBoard = false, pubsub) {
   const parent = document.createElement('div');
   const table = document.createElement('table');
   parent.appendChild(table);
@@ -36,17 +37,26 @@ function createBoardElem(board, isOwnBoard = false) {
     const tRow = document.createElement('tr');
     table.appendChild(tRow);
     for (let col = 0; col < width; col += 1) {
-      const tDiv = createTileElem(board.getTile(row, col), isOwnBoard);
+      const tDiv = document.createElement('td');
       tRow.appendChild(tDiv);
+      const button = document.createElement('button');
+      tDiv.append(button);
+      const group = getTileGroup(board.getTile(row, col), isOwnBoard);
+      button.className = group.category;
+      button.innerText = group.symbol;
       // add event listener to cell for inputs
+      if (!isOwnBoard && pubsub) {
+        button.addEventListener('click', () => {
+          pubsub.emit('target-select', [row, col]);
+        });
+      }
     }
   }
   return parent;
 }
 
-function drawBoard(container, board, isOwnBoard) {
-  console.log('drawing board');
-  const boardElem = createBoardElem(board, isOwnBoard);
+function drawBoard(container, board, isOwnBoard, pubsub) {
+  const boardElem = createBoardElem(board, isOwnBoard, pubsub);
   if (container.firstChild) { container.replaceChild(boardElem, container.firstChild); } else { container.appendChild(boardElem); }
 }
 

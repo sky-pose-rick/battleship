@@ -1,0 +1,7 @@
+#content {
+  display:flex;
+}
+
+.board{
+  border:5px solid black;
+}
