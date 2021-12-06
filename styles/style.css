@@ -1,7 +1,12 @@
-#content {
+#board-holders {
   display:flex;
 }
 
 .board{
   border:5px solid black;
+}
+
+#log {
+  display: flex;
+  flex-direction: column-reverse;
 }
