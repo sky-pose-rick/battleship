@@ -60,4 +60,24 @@ function drawBoard(container, board, isOwnBoard, pubsub) {
   if (container.firstChild) { container.replaceChild(boardElem, container.firstChild); } else { container.appendChild(boardElem); }
 }
 
-export default { createBoardElem, drawBoard };
+function createEventLogElem(action, player) {
+  const logElem = document.createElement('p');
+  logElem.innerText = `${player} targeted [${action.row}, ${action.col}].`;
+
+  if (action.hit) { logElem.innerText += ' Hit!'; }
+
+  return logElem;
+}
+
+function logEvent(parent, action, player) {
+  const elem = createEventLogElem(action, player);
+  parent.appendChild(elem);
+}
+
+function logWinner(parent, player) {
+  const elem = document.createElement('p');
+  parent.appendChild(elem);
+  elem.innerText = `${player} Wins!`;
+}
+
+export default { drawBoard, logEvent, logWinner };

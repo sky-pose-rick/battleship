@@ -75,6 +75,7 @@ async function runGame() {
   // one board container
   const container1 = document.getElementById('board1');
   const container2 = document.getElementById('board2');
+  const gameLog = document.getElementById('log');
   boardDrawer.drawBoard(container1, board1, true);
   boardDrawer.drawBoard(container2, board2, false, pubsub);
 
@@ -85,7 +86,7 @@ async function runGame() {
     // ask human player to choose target
     // eslint-disable-next-line no-await-in-loop
     const action1 = await player1.takeTurn(board2, modClickTarget);
-    console.log('Human: ', action1);
+    boardDrawer.logEvent(gameLog, action1, 'Human');
     // allow clicking on board
     // once target is selected, end clicking
 
@@ -98,14 +99,21 @@ async function runGame() {
     // AI choose target
     // eslint-disable-next-line no-await-in-loop
     const action2 = await player2.takeTurn(board1, player2.aiTarget);
-    console.log('AI: ', action2);
+    boardDrawer.logEvent(gameLog, action2, 'AI');
   // check if human loses
   // back to top of loop
   }
-  boardDrawer.drawBoard(container1, board1, true);
-  boardDrawer.drawBoard(container2, board2, false);
+  if (board1.isAllSunk()) {
+    boardDrawer.drawBoard(container1, board1, true);
+    // reveal AI's remaining ships
+    boardDrawer.drawBoard(container2, board2, true);
+    boardDrawer.logWinner(gameLog, 'AI');
+  } else {
+    boardDrawer.drawBoard(container2, board2, true);
+    boardDrawer.logWinner(gameLog, 'Human');
+  }
+
   // exit function
-  console.log('game over');
 }
 
 export default { runGame };
