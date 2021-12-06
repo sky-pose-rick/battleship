@@ -63,6 +63,7 @@ function drawBoard(container, board, isOwnBoard, pubsub) {
 function createEventLogElem(action, player) {
   const logElem = document.createElement('p');
   logElem.innerText = `${player} targeted [${action.row}, ${action.col}].`;
+  logElem.className = 'log-event';
 
   if (action.hit) { logElem.innerText += ' Hit!'; }
 
@@ -77,6 +78,7 @@ function logEvent(parent, action, player) {
 function logWinner(parent, player) {
   const elem = document.createElement('p');
   parent.appendChild(elem);
+  elem.className = 'log-event';
   elem.innerText = `${player} Wins!`;
 }
 

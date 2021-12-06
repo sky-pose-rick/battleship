@@ -1,12 +1,55 @@
+h1 {
+  font-size: 40px;
+}
+
 #board-holders {
   display:flex;
 }
 
 .board{
   border:5px solid black;
+  width: 400px;
+  height: 400px;
+}
+
+.board button{
+  height: 40px;
+  width: 40px;
 }
 
 #log {
   display: flex;
   flex-direction: column-reverse;
+}
+
+.log-event {
+  margin: 5px;
+  padding: 5px;
+  background-color: rgb(189, 189, 189);
+  width: max-content;
+}
+
+.cell-empty {
+  color: rgba(0, 0, 0, 0);
+  background-color: blue;
+}
+
+.cell-miss {
+  color: rgba(0, 0, 0, 0);
+  background-color: black;
+}
+
+.cell-ship {
+  color: rgba(0, 0, 0, 0);
+  background-color: green;
+}
+
+.cell-sunk {
+  color: rgba(0, 0, 0, 0);
+  background-color: red;
+}
+
+.cell-hit {
+  color: rgba(0, 0, 0, 0);
+  background-color: pink;
 }

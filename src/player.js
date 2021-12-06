@@ -1,5 +1,3 @@
-import gameboardFactory from './gameboard';
-
 const playerFactory = () => {
   const boardSize = 10;
   const hitStack = [];

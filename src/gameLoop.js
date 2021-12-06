@@ -65,9 +65,9 @@ async function runGame() {
   // create player 2
   const player2 = playerFactory();
   // create board 1
-  const board1 = quickBoardSetup();
+  const board1 = staticBoardSetup();
   // create board 2
-  const board2 = quickBoardSetup();
+  const board2 = staticBoardSetup();
 
   const pubsub = eventEmitter();
   const modClickTarget = () => clickTargeting(pubsub);
